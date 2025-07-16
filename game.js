@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const obstacles = document.getElementById('obstacles');
     const scoreElement = document.getElementById('score');
     const gameOverElement = document.getElementById('game-over');
-    const startScreen = document.getElementById('start-screen');
-    const startButton = document.getElementById('start-button');
     const restartButton = document.getElementById('restart-button');
-    const countdownElement = document.getElementById('countdown');
     const finalScoreElement = document.getElementById('final-score');
 
     // Biến game
@@ -29,41 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         gameSpeed = 2;
         score = 0;
         isGameOver = false;
-        isGameStarted = false;
+        isGameStarted = true; // Bắt đầu game ngay lập tức
         pipeGap = 150;
 
         // Reset hiển thị
         bird.style.top = birdPosition + 'px';
         scoreElement.textContent = score;
         gameOverElement.style.display = 'none';
-        startScreen.style.display = 'flex';
         
         // Xóa tất cả ống cũ
         obstacles.innerHTML = '';
+        
+        // Bắt đầu game ngay
+        startGamePlay();
     }
 
     // Hàm nhảy
     function jump() {
         if (!isGameStarted || isGameOver) return;
         gravity = -8;
-    }
-
-    // Đếm ngược
-    function startCountdown() {
-        let count = 3;
-        countdownElement.style.display = 'block';
-        countdownElement.textContent = count;
-
-        const countdownTimer = setInterval(() => {
-            count--;
-            countdownElement.textContent = count;
-
-            if (count <= 0) {
-                clearInterval(countdownTimer);
-                countdownElement.style.display = 'none';
-                startGamePlay();
-            }
-        }, 1000);
     }
 
     // Bắt đầu chơi
@@ -171,29 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverElement.style.display = 'block';
     }
 
-     // Sự kiện nút bắt đầu
-     startButton.addEventListener('click', () => {
-         initGame();
-         startScreen.style.display = 'none';
-         startCountdown();
-     });
-
-    // // Sự kiện nút chơi lại
-     restartButton.addEventListener('click', () => {
-     // Ẩn cả màn hình game over và màn hình bắt đầu
-     gameOverElement.style.display = 'none';
-     startScreen.style.display = 'none'; // Thêm dòng này
-    
-    initGame();
-    startCountdown();
+    // Sự kiện nút chơi lại
+    restartButton.addEventListener('click', () => {
+        initGame();
     });
-
-    // // Sự kiện nút chơi lại
-    // restartButton.addEventListener('click', () => {
-    //     initGame();
-    //   gameOverElement.style.display = 'none';
-    //      startCountdown();
-    //  });
 
     // Điều khiển
     document.addEventListener('keydown', (e) => {
